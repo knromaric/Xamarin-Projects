@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuotesViewer.MainPage">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0"  Android="20,30,20,20"/>
+    </ContentPage.Padding>
+
+    <StackLayout x:Name="layout" BindingContext="{x:Reference slider}" Spacing="25">
+        <Button Text="Next" 
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="Button_Clicked" />
+
+        <Label Text="{Binding Value, StringFormat='Font size: {0:N0}'}"
+               FontSize="20"/>
+        <Slider x:Name="slider" Maximum="50" Minimum="15"/>
+
+        <Label x:Name="currentQuotes" FontSize="{Binding Value}"/>
+    </StackLayout>
+</ContentPage>
