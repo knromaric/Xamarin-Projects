@@ -8,7 +8,7 @@ namespace ContactListApp.Models
         public string Title { get; set; }
 
         public SearchGroup(string title, IEnumerable<Search> searches = null)
-            : base(searches)
+           :base(searches)
         {
             Title = title;
         }
