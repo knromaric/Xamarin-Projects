@@ -1,6 +1,8 @@
 ﻿using ContactBook.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,12 +17,16 @@ namespace ContactBook
 	{
         public event EventHandler<Contact> ContactAdded;
         public event EventHandler<Contact> ContactUpdated;
+        private SQLiteAsyncConnection _db; 
 		public ContactDetailPage (Contact contact)
 		{
             if (contact == null)
                 throw new ArgumentNullException(nameof(Contact));
 
 			InitializeComponent ();
+
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MyContacts.db");
+            _db = new SQLiteAsyncConnection(databasePath);
 
             BindingContext = new Contact
             {
@@ -45,11 +51,12 @@ namespace ContactBook
 
             if (contact.Id == 0)
             {
-                contact.Id = 1; 
+                await _db.InsertAsync(contact);
                 ContactAdded?.Invoke(this, contact);
             }
             else
             {
+                await _db.UpdateAsync(contact);
                 ContactUpdated?.Invoke(this, contact);
             }
             
